@@ -178,7 +178,7 @@ func (s *server) handleManual(w http.ResponseWriter, r *http.Request) {
 	}
 	callback := strings.TrimSpace(r.PostFormValue("callback"))
 	if _, err := url.ParseRequestURI(callback); err != nil {
-		s.errorPage(w, "Invalid callback URL", "Enter the full URL of the medoro-callback endpoint.")
+		s.errorPage(w, "Invalid callback URL", "Enter the full URL of the medoro-callback endpoint?.")
 		return
 	}
 	orderID := strings.TrimSpace(r.PostFormValue("orderId"))
