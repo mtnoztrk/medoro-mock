@@ -1,0 +1,82 @@
+{
+    "_comment": "Each scenario's xml field is a Go text/template. Available placeholders: {{.PaymentID}} {{.OrderID}} {{.Amount}} {{.Currency}} {{.Description}} {{.Name}} {{.Email}} {{.StartDate}} {{.LastDate}}. To add a scenario, copy a real Medoro callback XML, replace the order-specific values with placeholders, escape the double quotes for JSON and append an entry.",
+    "scenarios": [
+        {
+            "id": "success-3ds",
+            "label": "Card approved (3-D Secure)",
+            "kind": "success",
+            "description": "State 6, ActionCode 000, frictionless 3DS (ECI 5). Credits are granted.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>6</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>{{.Name}}</Name><Number>442742XXXXXX5194</Number></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><Status>Y</Status><ECI>5</ECI><ACS><PaRes>z2soQ0t1cAJXLKSB89LDzg</PaRes></ACS></D3D><Auth><ApprovalCode>223130</ApprovalCode><ActionCode>000</ActionCode><Description>approved</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.1</RemoteAddress></data>"
+        },
+        {
+            "id": "success-applepay",
+            "label": "Apple Pay",
+            "kind": "success",
+            "description": "State 6, ActionCode 000, wallet payment (ECI 5, no ACS). Credits are granted.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>6</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>applepay</Name><Number>521400XXXXXX3482</Number></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><ECI>5</ECI></D3D><Auth><ApprovalCode>83591Z</ApprovalCode><ActionCode>000</ActionCode><Description>approved</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.2</RemoteAddress></data>"
+        },
+        {
+            "id": "success-googlepay",
+            "label": "Google Pay",
+            "kind": "success",
+            "description": "State 6, ActionCode 000, wallet payment (ECI 5). Credits are granted.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>6</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>googlepay</Name><Number>442742XXXXXX5194</Number></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><Status>Y</Status><ECI>5</ECI><ACS><PaRes>O750x2Z0MHfONq8HsnbevA</PaRes></ACS></D3D><Auth><ApprovalCode>246869</ApprovalCode><ActionCode>000</ActionCode><Description>approved</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.3</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-3ds",
+            "label": "3-D Secure authentication failed",
+            "kind": "failure",
+            "description": "State 2, ActionCode 182. The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>2</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>{{.Name}}</Name><Number>429117XXXXXX2350</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><ACS><URL>http://localhost:2727/secure/b1/three_dss/3131311/ThsmkoBpOij6a-ttzoEKCg</URL><PaReq>ThsmkoBpOij6a-ttzoEKCg</PaReq></ACS></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>182</ActionCode><Description>3d secure authentication failed</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.4</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-cvv",
+            "label": "CVV2 declined",
+            "kind": "failure",
+            "description": "State 4, ActionCode 187 (Decline for CVV2 failure). The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>4</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>{{.Name}}</Name><Number>429117XXXXXX1512</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><Status>Y</Status><ECI>5</ECI><ACS><URL>http://localhost:2727/secure/b1/three_dss/3131311/OZNG76nFDRMkgOBOO--4ww</URL><PaReq>OZNG76nFDRMkgOBOO--4ww</PaReq></ACS></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>187</ActionCode><Description>Decline for CVV2 failure</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.5</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-abandoned",
+            "label": "abandoned",
+            "kind": "failure",
+            "description": "State 2, ActionCode 949. The user never finished the payment. The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>2</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>949</ActionCode><Description>abandoned</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.6</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-nsf",
+            "label": "Not sufficient funds",
+            "kind": "failure",
+            "description": "State 4, ActionCode 116 (not sufficient funds). The most frequent real decline. The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>4</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>{{.Name}}</Name><Number>517805XXXXXX1431</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><Status>Y</Status><ECI>2</ECI></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>116</ActionCode><Description>not sufficient funds</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.7</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-3ds-unavailable",
+            "label": "3-D Secure unavailable",
+            "kind": "failure",
+            "description": "State 2, ActionCode 181 (3d secure authentication is currently unavailable). The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>2</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>{{.Name}}</Name><Number>411810XXXXXX6785</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>181</ActionCode><Description>3d secure authentication is currently unavailable</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.8</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-suspected-fraud",
+            "label": "Suspected fraud",
+            "kind": "failure",
+            "description": "State 4, ActionCode 102 (suspected fraud), 3DS attempted (Status A, ECI 6). The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>4</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>{{.Name}}</Name><Number>447069XXXXXX1582</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><Status>A</Status><ECI>6</ECI></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>102</ActionCode><Description>suspected fraud</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.9</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-fraud-violation",
+            "label": "Fraud/Security violation",
+            "kind": "failure",
+            "description": "State 4, ActionCode 164 (Decline, Fraud/Security violation). The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>4</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>googlepay</Name><Number>558668XXXXXX1931</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><Status>Y</Status><ECI>2</ECI><ACS><URL>http://localhost:2727/secure/b1/three_dss/3131311/xBbVTqEgfPYQ4l1vOecyvA</URL><PaReq>xBbVTqEgfPYQ4l1vOecyvA</PaReq></ACS></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>164</ActionCode><Description>Decline, Fraud/Security violation</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.10</RemoteAddress></data>"
+        },
+        {
+            "id": "state7-approved",
+            "label": "Approved with State 7 (unmapped)",
+            "kind": "failure",
+            "description": "State 7, ActionCode 000, approved (Apple Pay). Seen in production. The backend has no mapping for state 7, so its fallback rejects the payment.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>7</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>applepay</Name><Number>465992XXXXXX4613</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><ECI>5</ECI></D3D><Auth><ApprovalCode>224978</ApprovalCode><ActionCode>000</ActionCode><Description>approved</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.11</RemoteAddress></data>"
+        }
+    ]
+}

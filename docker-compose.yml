@@ -1,0 +1,10 @@
+services:
+  medoro-mock:
+    build: .
+    container_name: medoro-mock
+    restart: unless-stopped
+    ports:
+      - "2727:2727"
+    volumes:
+      # Edit scenarios.json on the host and refresh the page — no rebuild needed.
+      - ./scenarios.json:/app/scenarios.json:ro
