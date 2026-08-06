@@ -72,6 +72,27 @@
             "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>4</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>googlepay</Name><Number>558668XXXXXX1931</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><Status>Y</Status><ECI>2</ECI><ACS><URL>http://localhost:2727/secure/b1/three_dss/3131311/xBbVTqEgfPYQ4l1vOecyvA</URL><PaReq>xBbVTqEgfPYQ4l1vOecyvA</PaReq></ACS></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>164</ActionCode><Description>Decline, Fraud/Security violation</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.10</RemoteAddress></data>"
         },
         {
+            "id": "fail-withdrawal-frequency-limit",
+            "label": "Withdrawal frequency limit exceeded",
+            "kind": "failure",
+            "description": "State 4, ActionCode 123 (exceeds withdrawal frequency limit). The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>4</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>applepay</Name><Number>411111XXXXXX1111</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><ECI>5</ECI></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>123</ActionCode><Description>exceeds withdrawal frequency limit</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.12</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-restricted-card",
+            "label": "Restricted card",
+            "kind": "failure",
+            "description": "State 4, ActionCode 104 (decline, restricted card). The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>4</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>applepay</Name><Number>555555XXXXXX4444</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><ECI>5</ECI></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>104</ActionCode><Description>decline, restricted card</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.13</RemoteAddress></data>"
+        },
+        {
+            "id": "fail-withdrawal-amount-limit",
+            "label": "Withdrawal amount limit exceeded",
+            "kind": "failure",
+            "description": "State 4, ActionCode 121 (Decline, exceeds withdrawal amount limit). The payment is rejected.",
+            "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><data><AutoDeposit>true</AutoDeposit><Payment><ID>{{.PaymentID}}</ID><State>4</State><Mode>5</Mode><StartDate>{{.StartDate}}</StartDate><LastDate>{{.LastDate}}</LastDate></Payment><Order><ID>{{.OrderID}}</ID><Amount>{{.Amount}}</Amount><DepositAmount>{{.Amount}}</DepositAmount><ReversalAmount>0</ReversalAmount><Currency>{{.Currency}}</Currency><Description>{{.Description}}</Description></Order><Card><Name>{{.Name}}</Name><Number>424242XXXXXX4242</Number><IssuerCountry>USA</IssuerCountry></Card><BillingAddress><Name>{{.Name}}</Name><Address>123 Test Street</Address><City>Test City</City><Country>LVA</Country><PostIndex>LV-1234</PostIndex><Phone>+371-12345678</Phone><Email>{{.Email}}</Email></BillingAddress><D3D><Enrolled>Y</Enrolled><Status>Y</Status><ECI>5</ECI></D3D><Auth><ApprovalCode>SYSTEM</ApprovalCode><ActionCode>121</ActionCode><Description>Decline, exceeds withdrawal amount limit</Description></Auth><Notification>Test payment notification</Notification><RemoteAddress>203.0.113.14</RemoteAddress></data>"
+        },
+        {
             "id": "state7-approved",
             "label": "Approved with State 7 (unmapped)",
             "kind": "failure",
