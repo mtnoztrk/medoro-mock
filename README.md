@@ -74,7 +74,7 @@ server {
 ```
 
 The mock reads the callback URL from the request's `CALLBACK` field, so it needs no configuration
-of its own.
+of its own. It preserves the request currency and supports both USD and EUR amounts in minor units.
 
 ## Scenarios
 
@@ -105,9 +105,9 @@ already-completed payment.
 
 ## Manual mode
 
-Open `/` in a browser to fire a callback without going through the app: enter the payment
-transaction reference (order GUID), the amount in minor units and the callback URL, then pick a
-scenario. Useful for replaying a callback for an existing pending transaction.
+Open `/` in a browser to fire callbacks without going through the app: enter the payment
+transaction reference (order GUID), amount in minor units, USD or EUR currency, and callback URL.
+Then pick a scenario. This mode is useful for replaying callbacks for an existing pending transaction.
 
 ## Endpoints
 

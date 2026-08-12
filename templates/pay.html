@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
     <title>Mock Payment — {{.AmountDisplay}} {{.Session.Currency}}</title>
     <style>
         body { font-family: system-ui, sans-serif; background: #f2f4f8; margin: 0; color: #1c2333; }
@@ -46,7 +47,7 @@
                 <div class="desc">{{$s.Description}}</div>
             </label>
             {{end}}
-            <label class="s2s"><input type="checkbox" name="s2s"> Also send the server-to-server callback (medoro-server-callback)</label>
+            <label class="s2s"><input type="checkbox" name="s2s"> Also send a second, duplicate callback server-to-server (medoro-server-callback) — the browser callback is always sent</label>
             <button type="submit">Complete payment</button>
         </form>
         <div class="orderid">Order {{.Session.OrderID}} · callback {{.Session.CallbackURL}}</div>

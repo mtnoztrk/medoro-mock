@@ -101,9 +101,21 @@ func main() {
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
 		fmt.Fprintln(w, "ok")
 	})
+	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		fmt.Fprintln(w, "User-agent: *\nDisallow: /")
+	})
 
 	log.Printf("medoro-mock listening on %s", listenAddr)
-	log.Fatal(http.ListenAndServe(listenAddr, mux))
+	log.Fatal(http.ListenAndServe(listenAddr, noIndex(mux)))
+}
+
+// noIndex tells crawlers not to index or follow anything on this UAT-only host.
+func noIndex(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("X-Robots-Tag", "noindex, nofollow")
+		next.ServeHTTP(w, r)
+	})
 }
 
 // handleIndex shows the manual-start form plus the loaded scenario list.
@@ -186,11 +198,16 @@ func (s *server) handleManual(w http.ResponseWriter, r *http.Request) {
 		s.errorPage(w, "Missing order ID", "Enter the payment transaction reference (GUID).")
 		return
 	}
+	currency := strings.ToUpper(strings.TrimSpace(r.PostFormValue("currency")))
+	if currency != "USD" && currency != "EUR" {
+		s.errorPage(w, "Invalid currency", "Currency must be USD or EUR.")
+		return
+	}
 	sess := &paymentSession{
 		ID:          randomID(),
 		OrderID:     orderID,
 		Amount:      amount,
-		Currency:    "USD",
+		Currency:    currency,
 		Description: strings.TrimSpace(r.PostFormValue("description")),
 		Name:        "Manual Tester",
 		Email:       "uat-tester@example.com",

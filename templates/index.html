@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
     <title>Medoro Mock Gateway</title>
     <style>
         body { font-family: system-ui, sans-serif; background: #f2f4f8; margin: 0; color: #1c2333; }
@@ -11,7 +12,7 @@
         h1 { font-size: 22px; margin: 0 0 4px; }
         .sub { color: #6b7385; font-size: 14px; margin-bottom: 20px; }
         label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 4px; }
-        input[type=text] { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #cfd6e4; border-radius: 8px; font-size: 14px; }
+        input[type=text], select { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #cfd6e4; border-radius: 8px; background: #fff; font-size: 14px; }
         button { margin-top: 20px; width: 100%; padding: 12px; border: 0; border-radius: 8px; background: #2456d6; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; }
         button:hover { background: #1c46b3; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -30,8 +31,13 @@
         <form method="post" action="/manual">
             <label>Order ID (payment transaction reference GUID)</label>
             <input type="text" name="orderId" placeholder="e0af602e-8060-450d-8652-02e4b43c924a" required>
-            <label>Amount in minor units (3000 = $30.00)</label>
+            <label>Amount in minor units (3000 = 30.00)</label>
             <input type="text" name="amount" placeholder="3000" required>
+            <label>Currency</label>
+            <select name="currency" required>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+            </select>
             <label>Description</label>
             <input type="text" name="description" placeholder="100 credits">
             <label>Callback URL</label>
